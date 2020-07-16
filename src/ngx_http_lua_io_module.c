@@ -390,7 +390,8 @@ ngx_http_lua_io_extract_mode(ngx_http_lua_io_file_ctx_t *ctx,
         ctx->mode |= NGX_HTTP_LUA_IO_FILE_READ_MODE;
     }
 
-    if (ch != 'a' && (ctx->mode & NGX_HTTP_LUA_IO_FILE_WRITE_MODE)) {
+    // AL: at least with r+ mode we should not truncate. io.file doesn't
+    if (ch != 'a' && ch != 'r' && (ctx->mode & NGX_HTTP_LUA_IO_FILE_WRITE_MODE)) {
         flags |= O_TRUNC;
     }
 
